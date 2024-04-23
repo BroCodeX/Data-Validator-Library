@@ -1,4 +1,4 @@
-name: Project-78-CI
+name: Main-CI
 
 on:
   push:
