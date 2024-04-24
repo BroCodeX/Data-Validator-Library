@@ -1,8 +1,11 @@
 package hexlet.code.validators;
 
 import hexlet.code.Validator;
+import lombok.Setter;
+
 
 public class StringSchema implements Schema {
+    @Setter
     private Validator validator;
 
     public StringSchema() {
