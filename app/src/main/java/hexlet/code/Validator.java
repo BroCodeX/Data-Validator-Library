@@ -1,6 +1,7 @@
 package hexlet.code;
 
 import hexlet.code.validators.BaseSchema;
+import hexlet.code.validators.NumberSchema;
 import hexlet.code.validators.StringSchema;
 import lombok.Getter;
 
@@ -21,15 +22,14 @@ public class Validator {
         StringSchema stringSchema = new StringSchema();
         this.schemas.add(stringSchema);
         stringSchema.setValidator(this);
-//        try {
-//            Field field = stringSchema.getClass().getDeclaredField("validator");
-//            field.setAccessible(true);
-//            field.set(stringSchema, this);
-//            field.setAccessible(false);
-//        } catch (NoSuchFieldException | IllegalAccessException ex) {
-//            throw new RuntimeException(ex);
-//        }
         return stringSchema;
+    }
+
+    public NumberSchema number() {
+        NumberSchema numberSchema = new NumberSchema();
+        this.schemas.add(numberSchema);
+        numberSchema.setValidator(this);
+        return numberSchema;
     }
 
     public void removeSchema(BaseSchema schema) {

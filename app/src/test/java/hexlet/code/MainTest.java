@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.validators.NumberSchema;
 import hexlet.code.validators.StringSchema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -9,16 +10,18 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class MainTest {
     private StringSchema stringSchema;
+    private NumberSchema numberSchema;
     private Validator validator;
 
     @BeforeEach
     public void beforeEach() {
         validator = new Validator();
         stringSchema = validator.string();
+        numberSchema = validator.number();
     }
 
     @Test
-    public void excludeRequiredTest() {
+    public void excludeRequiredStringTest() {
         boolean expected = stringSchema.isValid("");
         assertTrue(expected);
         boolean expected2 = stringSchema.isValid(null);
@@ -26,7 +29,7 @@ public class MainTest {
     }
 
     @Test
-    public void includeRequiredTest() {
+    public void includeRequiredStringTest() {
         stringSchema.required();
         boolean expected = stringSchema.isValid(null);
         assertFalse(expected);
@@ -39,7 +42,7 @@ public class MainTest {
     }
 
     @Test
-    public void minLengthTest() {
+    public void minLengthStringTest() {
         stringSchema.required();
         boolean expected = stringSchema.minLength(4).isValid("Hexlet");
         assertTrue(expected);
@@ -50,7 +53,7 @@ public class MainTest {
     }
 
     @Test
-    public void containsTest() {
+    public void containsStringTest() {
         stringSchema.required();
         boolean expected = stringSchema.contains("wh").isValid("what does the fox say");
         assertTrue(expected);
@@ -59,6 +62,44 @@ public class MainTest {
         boolean expected3 = stringSchema.contains("whatthe").isValid("what does the fox say");
         assertFalse(expected3);
         boolean expected4 = stringSchema.isValid("what does the fox say");
+        assertFalse(expected4);
+    }
+
+    @Test
+    public void excludeRequiredIntTest() {
+        boolean expected = numberSchema.isValid(5);
+        assertTrue(expected);
+        boolean expected2 = numberSchema.isValid(null);
+        assertTrue(expected2);
+        boolean expected3 = numberSchema.positive().isValid(null);
+        assertTrue(expected3);
+    }
+
+    @Test
+    public void includeRequiredIntTest() {
+        numberSchema.required();
+        numberSchema.positive();
+        boolean expected = numberSchema.isValid(null);
+        assertFalse(expected);
+        boolean expected2 = numberSchema.isValid(10);
+        assertTrue(expected2);
+        boolean expected3 = numberSchema.isValid(-10);
+        assertFalse(expected3);
+        boolean expected4 = numberSchema.isValid(0);
+        assertFalse(expected4);
+    }
+
+    @Test
+    public void rangeIntTest() {
+        numberSchema.range(5, 10);
+        boolean expected = numberSchema.isValid(5);
+        assertTrue(expected);
+        boolean expected2 = numberSchema.isValid(11);
+        assertFalse(expected2);
+        numberSchema.range(-3, -7);
+        boolean expected3 = numberSchema.isValid(-5);
+        assertTrue(expected3);
+        boolean expected4 = numberSchema.isValid(-23);
         assertFalse(expected4);
     }
 }
