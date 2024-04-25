@@ -28,11 +28,18 @@ public class Validator {
         } catch (NoSuchFieldException | IllegalAccessException ex) {
             throw new RuntimeException(ex);
         }
-        stringSchema.setValidator(this);
         return stringSchema;
     }
 
     public void removeSchema(Schema schema) {
+        try {
+            Field field = schema.getClass().getDeclaredField("validator");
+            field.setAccessible(true);
+            field.set(schema, null);
+            field.setAccessible(false);
+        } catch (NoSuchFieldException | IllegalAccessException ex) {
+            throw new RuntimeException(ex);
+        }
         this.schemas.remove(schema);
     }
 

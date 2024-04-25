@@ -1,5 +1,5 @@
 package hexlet.code.validators;
 
-public interface Schema {
-    boolean isValid(Object value);
+public interface Schema<T> {
+    boolean isValid(T value);
 }
