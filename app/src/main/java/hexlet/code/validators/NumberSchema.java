@@ -46,13 +46,6 @@ public class NumberSchema implements BaseSchema<Integer> {
         return this;
     }
 
-    private boolean falseRequired(int length, String cText, String value) {
-        if (value == null || !positive) {
-            return true;
-        }
-        return value.contains(cText) && value.length() >= length;
-    }
-
     private boolean stateHandler(String field, Integer value) {
         return switch (field) {
             case "required" -> value != null;
