@@ -1,6 +1,6 @@
 package hexlet.code;
 
-import hexlet.code.validators.Schema;
+import hexlet.code.validators.BaseSchema;
 import hexlet.code.validators.StringSchema;
 import lombok.Getter;
 
@@ -11,7 +11,7 @@ import java.util.List;
 
 public class Validator {
     @Getter
-    private List<Schema> schemas;
+    private List<BaseSchema> schemas;
 
     Validator() {
         this.schemas = new ArrayList<>();
@@ -20,18 +20,19 @@ public class Validator {
     public StringSchema string() {
         StringSchema stringSchema = new StringSchema();
         this.schemas.add(stringSchema);
-        try {
-            Field field = stringSchema.getClass().getDeclaredField("validator");
-            field.setAccessible(true);
-            field.set(stringSchema, this);
-            field.setAccessible(false);
-        } catch (NoSuchFieldException | IllegalAccessException ex) {
-            throw new RuntimeException(ex);
-        }
+        stringSchema.setValidator(this);
+//        try {
+//            Field field = stringSchema.getClass().getDeclaredField("validator");
+//            field.setAccessible(true);
+//            field.set(stringSchema, this);
+//            field.setAccessible(false);
+//        } catch (NoSuchFieldException | IllegalAccessException ex) {
+//            throw new RuntimeException(ex);
+//        }
         return stringSchema;
     }
 
-    public void removeSchema(Schema schema) {
+    public void removeSchema(BaseSchema schema) {
         try {
             Field field = schema.getClass().getDeclaredField("validator");
             field.setAccessible(true);

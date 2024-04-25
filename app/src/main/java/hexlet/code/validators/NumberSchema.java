@@ -4,24 +4,23 @@ import hexlet.code.Validator;
 import lombok.Setter;
 
 
-public class StringSchema implements BaseSchema<String> {
+public class NumberSchema implements BaseSchema<Integer> {
     @Setter
     private Validator validator;
 
     private boolean required = false;
-    private int minLength = 0;
-    private String contains = "";
+    private boolean positive;
+    private int[] range;
 
-    public StringSchema() {
+    public NumberSchema() {
     }
 
     @Override
-    public boolean isValid(String value) {
+    public boolean isValid(Integer value) {
         if (this.required) {
             return value != null
-                    && !value.isEmpty()
-                    && value.length() >= this.minLength
-                    && value.contains(this.contains);
+                    && value >= 1
+                    && value >= this.range[0] && value <= this.range[1];
         } else {
             return falseRequired(this.minLength, this.contains, value);
         }
@@ -31,18 +30,20 @@ public class StringSchema implements BaseSchema<String> {
         this.required = true;
     }
 
-    public StringSchema minLength(int count) {
-        this.minLength = count;
+    public NumberSchema positive() {
+        this.positive = true;
         return this;
     }
 
-    public StringSchema contains(String text) {
-        this.contains = text;
+    public NumberSchema range(int start, int end) {
+        this.range = new int[2];
+        this.range[0] = start;
+        this.range[1] = end;
         return this;
     }
 
     private boolean falseRequired(int length, String cText, String value) {
-        if (value == null || value.isBlank()) {
+        if (value == null || !positive) {
             return true;
         }
         return value.contains(cText) && value.length() >= length;
