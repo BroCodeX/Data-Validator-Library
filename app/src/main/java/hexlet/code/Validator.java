@@ -1,7 +1,6 @@
 package hexlet.code;
 
 import hexlet.code.validators.BaseSchema;
-//import hexlet.code.validators.NumberSchema;
 import hexlet.code.validators.NumberSchema;
 import hexlet.code.validators.StringSchema;
 import lombok.Getter;

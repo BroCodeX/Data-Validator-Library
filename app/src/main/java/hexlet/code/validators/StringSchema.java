@@ -27,7 +27,7 @@ public class StringSchema implements BaseSchema<String> {
                 .allMatch(field -> stateHandler(field, value));
     }
 
-    public void required(){
+    public void required() {
         this.required = true;
         this.internalState.add("required");
     }

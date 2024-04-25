@@ -27,7 +27,7 @@ public class NumberSchema implements BaseSchema<Integer> {
                 .allMatch(field -> stateHandler(field, value));
     }
 
-    public void required(){
+    public void required() {
         this.required = true;
         this.internalState.add("required");
     }
@@ -56,9 +56,17 @@ public class NumberSchema implements BaseSchema<Integer> {
     private boolean stateHandler(String field, Integer value) {
         return switch (field) {
             case "required" -> value != null;
-            case "positive" -> value >= 1;
-            case "range" -> value >= this.range[0] && value <= this.range[1];
+            case "positive" -> value == null || value >= 1;
+            case "range" -> rangeHandler(value);
             default -> false;
         };
+    }
+
+    private boolean rangeHandler(int value) {
+        if (value > 0) {
+            return value >= this.range[0] && value <= this.range[1];
+        } else {
+            return value <= this.range[0] && value >= this.range[1];
+        }
     }
 }
