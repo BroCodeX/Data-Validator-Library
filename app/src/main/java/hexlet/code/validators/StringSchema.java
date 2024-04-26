@@ -3,48 +3,53 @@ package hexlet.code.validators;
 import hexlet.code.Validator;
 import lombok.Setter;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class StringSchema implements BaseSchema<String> {
     @Setter
     private Validator validator;
 
-    private boolean required = false;
-    private int minLength = 0;
-    private String contains = "";
+    List<String> internalState;
+
+    private boolean required;
+    private int minLength;
+    private String contains;
 
     public StringSchema() {
+        this.internalState = new ArrayList<>();
     }
 
     @Override
     public boolean isValid(String value) {
-        if (this.required) {
-            return value != null
-                    && !value.isEmpty()
-                    && value.length() >= this.minLength
-                    && value.contains(this.contains);
-        } else {
-            return falseRequired(this.minLength, this.contains, value);
-        }
+        return this.internalState.stream()
+                .allMatch(field -> stateHandler(field, value));
     }
 
-    public void required(){
+    public void required() {
         this.required = true;
+        this.internalState.add("required");
     }
 
     public StringSchema minLength(int count) {
         this.minLength = count;
+        this.internalState.add("minLength");
         return this;
     }
 
     public StringSchema contains(String text) {
         this.contains = text;
+        this.internalState.add("contains");
         return this;
     }
 
-    private boolean falseRequired(int length, String cText, String value) {
-        if (value == null || value.isBlank()) {
-            return true;
-        }
-        return value.contains(cText) && value.length() >= length;
+    private boolean stateHandler(String field, String value) {
+        return switch (field) {
+            case "required" -> value != null && !value.isEmpty();
+            case "contains" -> value.contains(this.contains);
+            case "minLength" -> value.length() >= this.minLength;
+            default -> false;
+        };
     }
 }
