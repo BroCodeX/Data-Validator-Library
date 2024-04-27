@@ -8,10 +8,11 @@ import java.util.List;
 import java.util.Map;
 
 public class MapSchema extends BaseSchemaClass<Map<Object, Object>>{
-    @Setter
-    private Validator validator;
     private int sizeOf;
     private boolean required;
+
+    @Setter
+    private Validator validator;
 
     List<String> internalState;
 

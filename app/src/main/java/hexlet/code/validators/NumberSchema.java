@@ -1,11 +1,14 @@
 package hexlet.code.validators;
 
-import java.util.List;
 
+import hexlet.code.Validator;
+import lombok.Setter;
 
 public class NumberSchema extends BaseSchemaClass<Integer> {
-    private boolean positive;
     private int[] range;
+
+    @Setter
+    private Validator validator;
 
     public NumberSchema() {
         super();
@@ -21,7 +24,6 @@ public class NumberSchema extends BaseSchemaClass<Integer> {
     }
 
     public NumberSchema positive() {
-        this.positive = true;
         this.getInternalState().add("positive");
         return this;
     }

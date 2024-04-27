@@ -1,9 +1,15 @@
 package hexlet.code.validators;
 
 
+import hexlet.code.Validator;
+import lombok.Setter;
+
 public class StringSchema extends BaseSchemaClass<String> {
     private int minLength;
     private String contains;
+
+    @Setter
+    private Validator validator;
 
     public StringSchema() {
         super();

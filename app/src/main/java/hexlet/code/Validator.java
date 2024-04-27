@@ -1,21 +1,44 @@
 package hexlet.code;
 
+import hexlet.code.validators.BaseSchemaClass;
 import hexlet.code.validators.MapSchema;
 import hexlet.code.validators.NumberSchema;
 import hexlet.code.validators.StringSchema;
 
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class Validator {
+    private List<BaseSchemaClass> schemas;
+
+    Validator() {
+        this.schemas = new ArrayList<>();
+    }
+
     public StringSchema string() {
-        return new StringSchema();
+        StringSchema stringSchema = new StringSchema();
+        this.schemas.add(stringSchema);
+        stringSchema.setValidator(this);
+        return stringSchema;
     }
 
     public NumberSchema number() {
-        return new NumberSchema();
+        NumberSchema numberSchema = new NumberSchema();
+        this.schemas.add(numberSchema);
+        numberSchema.setValidator(this);
+        return numberSchema;
     }
 
     public MapSchema mapSchema() {
-        return new MapSchema();
+        MapSchema mapSchema = new MapSchema();
+        this.schemas.add(mapSchema);
+        mapSchema.setValidator(this);
+        return mapSchema;
+    }
+
+    public void removeSchema(BaseSchemaClass schemaClass) {
+        this.schemas.remove(schemaClass);
     }
 
 }
