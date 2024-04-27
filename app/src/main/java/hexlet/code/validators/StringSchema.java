@@ -1,46 +1,33 @@
 package hexlet.code.validators;
 
-import hexlet.code.Validator;
-import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
-
-
-public class StringSchema implements BaseSchema<String> {
-    @Setter
-    private Validator validator;
-
-    List<String> internalState;
-
-    private boolean required;
+public class StringSchema extends BaseSchemaClass<String> {
     private int minLength;
     private String contains;
 
     public StringSchema() {
-        this.internalState = new ArrayList<>();
+        super();
     }
 
     @Override
     public boolean isValid(String value) {
-        return this.internalState.stream()
+        return this.getInternalState().stream()
                 .allMatch(field -> stateHandler(field, value));
     }
 
     public void required() {
-        this.required = true;
-        this.internalState.add("required");
+        super.required();
     }
 
     public StringSchema minLength(int count) {
         this.minLength = count;
-        this.internalState.add("minLength");
+        this.getInternalState().add("minLength");
         return this;
     }
 
     public StringSchema contains(String text) {
         this.contains = text;
-        this.internalState.add("contains");
+        this.getInternalState().add("contains");
         return this;
     }
 

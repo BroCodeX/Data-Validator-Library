@@ -1,40 +1,28 @@
 package hexlet.code.validators;
 
-import hexlet.code.Validator;
-import lombok.Setter;
-
-import java.util.ArrayList;
 import java.util.List;
 
 
-public class NumberSchema implements BaseSchema<Integer> {
-    @Setter
-    private Validator validator;
-
-    List<String> internalState;
-
-    private boolean required = false;
+public class NumberSchema extends BaseSchemaClass<Integer> {
     private boolean positive;
     private int[] range;
 
     public NumberSchema() {
-        this.internalState = new ArrayList<>();
+        super();
     }
 
     @Override
     public boolean isValid(Integer value) {
-        return this.internalState.stream()
+        return this.getInternalState().stream()
                 .allMatch(field -> stateHandler(field, value));
     }
-
     public void required() {
-        this.required = true;
-        this.internalState.add("required");
+        super.required();
     }
 
     public NumberSchema positive() {
         this.positive = true;
-        this.internalState.add("positive");
+        this.getInternalState().add("positive");
         return this;
     }
 
@@ -42,7 +30,7 @@ public class NumberSchema implements BaseSchema<Integer> {
         this.range = new int[2];
         this.range[0] = start;
         this.range[1] = end;
-        this.internalState.add("range");
+        this.getInternalState().add("range");
         return this;
     }
 
