@@ -4,6 +4,7 @@ import hexlet.code.validators.BaseSchema;
 import hexlet.code.validators.MapSchema;
 import hexlet.code.validators.NumberSchema;
 import hexlet.code.validators.StringSchema;
+import lombok.Getter;
 
 import java.lang.reflect.Field;
 import java.util.ArrayList;
@@ -11,6 +12,7 @@ import java.util.List;
 
 
 public class Validator {
+    @Getter
     private List<BaseSchema> schemas;
 
     Validator() {

@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.validators.BaseSchema;
 import hexlet.code.validators.MapSchema;
 import hexlet.code.validators.NumberSchema;
 import hexlet.code.validators.StringSchema;
@@ -7,6 +8,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.util.HashMap;
+import java.util.Map;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.junit.jupiter.api.Assertions.assertFalse;
@@ -127,5 +129,29 @@ public class MainTest {
         assertFalse(mapSchema.isValid(data));
         data.put("key2", "value2");
         assertTrue(mapSchema.isValid(data));
+    }
+
+    @Test
+    public void mapIncludeTests() {
+        Map<String, BaseSchema<String>> schemas = new HashMap<>();
+        schemas.put("firstName", validator.string().required());
+        schemas.put("lastName", validator.string().required().minLength(2));
+
+        mapSchema.shape(schemas);
+
+        Map<String, String> human1 = new HashMap<>();
+        human1.put("firstName", "John");
+        human1.put("lastName", "Smith");
+        assertTrue(mapSchema.isValid(human1));
+
+        Map<String, String> human2 = new HashMap<>();
+        human2.put("firstName", "John");
+        human2.put("lastName", null);
+        assertFalse(mapSchema.isValid(human2));
+
+        Map<String, String> human3 = new HashMap<>();
+        human3.put("firstName", "Anna");
+        human3.put("lastName", "B");
+        assertFalse(mapSchema.isValid(human3));
     }
 }

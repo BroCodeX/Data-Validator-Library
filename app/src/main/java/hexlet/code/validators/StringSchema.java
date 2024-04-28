@@ -21,8 +21,9 @@ public class StringSchema extends BaseSchema<String> {
                 .allMatch(field -> stateHandler(field, value));
     }
 
-    public void required() {
-        super.required();
+    public StringSchema required() {
+        this.getInternalState().add("required");
+        return this;
     }
 
     public StringSchema minLength(int count) {

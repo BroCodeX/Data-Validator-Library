@@ -19,8 +19,9 @@ public class NumberSchema extends BaseSchema<Integer> {
         return this.getInternalState().stream()
                 .allMatch(field -> stateHandler(field, value));
     }
-    public void required() {
-        super.required();
+    public NumberSchema required() {
+        this.getInternalState().add("required");
+        return this;
     }
 
     public NumberSchema positive() {

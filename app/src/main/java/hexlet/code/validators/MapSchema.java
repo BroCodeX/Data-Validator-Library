@@ -15,8 +15,9 @@ public class MapSchema<T> extends BaseSchema<Map<T, T>> {
         super();
     }
 
-    public void required() {
-        super.required();
+    public BaseSchema required() {
+        this.getInternalState().add("required");
+        return this;
     }
 
     @Override
@@ -36,5 +37,9 @@ public class MapSchema<T> extends BaseSchema<Map<T, T>> {
             case "sizeof" -> value.size() >= this.sizeOf;
             default -> false;
         };
+    }
+
+    public void shape(Map<T, BaseSchema<T>> schemas) {
+
     }
 }
