@@ -26,12 +26,13 @@ public class MapSchema<T> extends BaseSchema<Map<T, T>> {
     }
 
     public void sizeof(int size) {
+        this.sizeOf = size;
         this.getInternalState().add("sizeof");
     }
 
     private boolean stateHandler(String field, Map<T, T> value) {
         return switch (field) {
-            case "required" -> value != null && value instanceof Map;
+            case "required" -> value != null;
             case "sizeof" -> value.size() >= this.sizeOf;
             default -> false;
         };
