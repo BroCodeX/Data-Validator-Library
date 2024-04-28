@@ -111,21 +111,21 @@ public class MainTest {
 
     @Test
     public void mapTests() {
-        assertTrue(mapSchema.isValid(null)); // true
+        assertTrue(mapSchema.isValid(null));
 
         mapSchema.required();
-        assertFalse(mapSchema.isValid(null)); // false
+        assertFalse(mapSchema.isValid(null));
 
-        assertTrue(mapSchema.isValid(new HashMap<>())); // true
+        assertTrue(mapSchema.isValid(new HashMap<>()));
 
         var data = new HashMap<String, String>();
         data.put("key1", "value1");
-        assertTrue(mapSchema.isValid(data)); // true
+        assertTrue(mapSchema.isValid(data));
 
         mapSchema.sizeof(2);
 
-        assertFalse(mapSchema.isValid(data));  // false
+        assertFalse(mapSchema.isValid(data));
         data.put("key2", "value2");
-        assertTrue(mapSchema.isValid(data)); // true
+        assertTrue(mapSchema.isValid(data));
     }
 }
