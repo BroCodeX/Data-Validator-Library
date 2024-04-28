@@ -3,34 +3,37 @@ package hexlet.code.validators;
 import hexlet.code.Validator;
 import lombok.Setter;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Map;
 
-public class MapSchema extends BaseSchemaClass<Map<Object, Object>>{
+public class MapSchema<T> extends BaseSchema<Map<T, T>> {
     private int sizeOf;
-    private boolean required;
 
     @Setter
     private Validator validator;
 
-    List<String> internalState;
-
     public MapSchema() {
-        this.internalState = new ArrayList<>();
+        super();
     }
 
     public void required() {
-        this.required = true;
-        this.internalState.add("required");
-    }
-
-    public void sizeOf(int size) {
-
+        super.required();
     }
 
     @Override
-    public boolean isValid(Map<Object, Object> value) {
-        return false;
+    public boolean isValid(Map<T, T> value) {
+        return this.getInternalState().stream()
+                .allMatch(field -> stateHandler(field, value));
+    }
+
+    public void sizeof(int size) {
+        this.getInternalState().add("sizeof");
+    }
+
+    private boolean stateHandler(String field, Map<T, T> value) {
+        return switch (field) {
+            case "required" -> value != null && value instanceof Map;
+            case "sizeof" -> value.size() >= this.sizeOf;
+            default -> false;
+        };
     }
 }

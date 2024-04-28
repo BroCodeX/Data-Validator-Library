@@ -1,6 +1,6 @@
 package hexlet.code;
 
-import hexlet.code.validators.BaseSchemaClass;
+import hexlet.code.validators.BaseSchema;
 import hexlet.code.validators.MapSchema;
 import hexlet.code.validators.NumberSchema;
 import hexlet.code.validators.StringSchema;
@@ -11,7 +11,7 @@ import java.util.List;
 
 
 public class Validator {
-    private List<BaseSchemaClass> schemas;
+    private List<BaseSchema> schemas;
 
     Validator() {
         this.schemas = new ArrayList<>();
@@ -31,14 +31,14 @@ public class Validator {
         return numberSchema;
     }
 
-    public MapSchema mapSchema() {
+    public MapSchema map() {
         MapSchema mapSchema = new MapSchema();
         this.schemas.add(mapSchema);
         mapSchema.setValidator(this);
         return mapSchema;
     }
 
-    public void removeSchema(BaseSchemaClass schemaClass) {
+    public void removeSchema(BaseSchema schemaClass) {
         this.schemas.remove(schemaClass);
         try {
             Field field = schemaClass.getClass().getDeclaredField("validator");
