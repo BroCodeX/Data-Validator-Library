@@ -21,8 +21,9 @@ public class StringSchema extends BaseSchema<String> {
                 .allMatch(field -> stateHandler(field, value));
     }
 
-    public void required() {
-        super.required();
+    public StringSchema required() {
+        this.getInternalState().add("required");
+        return this;
     }
 
     public StringSchema minLength(int count) {
@@ -42,7 +43,7 @@ public class StringSchema extends BaseSchema<String> {
             case "required" -> value != null && !value.isEmpty();
             case "contains" -> value.contains(this.contains);
             case "minLength" -> value.length() >= this.minLength;
-            default -> false;
+            default -> throw new RuntimeException("There is no settings for the schema");
         };
     }
 }

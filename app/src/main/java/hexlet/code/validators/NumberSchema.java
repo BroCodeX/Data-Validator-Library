@@ -19,8 +19,9 @@ public class NumberSchema extends BaseSchema<Integer> {
         return this.getInternalState().stream()
                 .allMatch(field -> stateHandler(field, value));
     }
-    public void required() {
-        super.required();
+    public NumberSchema required() {
+        this.getInternalState().add("required");
+        return this;
     }
 
     public NumberSchema positive() {
@@ -41,7 +42,7 @@ public class NumberSchema extends BaseSchema<Integer> {
             case "required" -> value != null;
             case "positive" -> value == null || value >= 1;
             case "range" -> rangeHandler(value);
-            default -> false;
+            default -> throw new RuntimeException("There is no settings for the schema");
         };
     }
 
