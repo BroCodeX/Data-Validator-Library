@@ -42,7 +42,7 @@ public class NumberSchema extends BaseSchema<Integer> {
             case "required" -> value != null;
             case "positive" -> value == null || value >= 1;
             case "range" -> rangeHandler(value);
-            default -> false;
+            default -> throw new RuntimeException("There is no settings for the schema");
         };
     }
 

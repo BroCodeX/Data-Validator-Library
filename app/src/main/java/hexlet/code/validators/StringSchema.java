@@ -43,7 +43,7 @@ public class StringSchema extends BaseSchema<String> {
             case "required" -> value != null && !value.isEmpty();
             case "contains" -> value.contains(this.contains);
             case "minLength" -> value.length() >= this.minLength;
-            default -> false;
+            default -> throw new RuntimeException("There is no settings for the schema");
         };
     }
 }

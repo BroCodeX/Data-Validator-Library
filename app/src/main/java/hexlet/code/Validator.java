@@ -15,7 +15,7 @@ public class Validator {
     @Getter
     private List<BaseSchema> schemas;
 
-    Validator() {
+    public Validator() {
         this.schemas = new ArrayList<>();
     }
 
