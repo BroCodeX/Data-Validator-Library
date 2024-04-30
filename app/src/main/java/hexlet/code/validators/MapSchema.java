@@ -70,8 +70,8 @@ public class MapSchema<T> extends BaseSchema<Map<T, T>> {
                         result = shapeStringHandler(valueString);
                     } else if (entry.getKey() instanceof Integer) {
                         Map<Integer, Integer> valueInt = new HashMap<>();
-                        valueInt.put((Integer)entry.getKey(),
-                                entry.getValue() == null ? null : (Integer)entry.getValue());
+                        valueInt.put((Integer) entry.getKey(),
+                                entry.getValue() == null ? null : (Integer) entry.getValue());
                         result = shapeIntegerHandler(valueInt);
                     }
                     return result;
