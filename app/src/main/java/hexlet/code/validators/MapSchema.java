@@ -77,21 +77,6 @@ public class MapSchema<T> extends BaseSchema<Map<T, T>> {
                     return result;
                 });
     }
-//        for (Map.Entry<T, T> entry : value.entrySet()) {
-//            if (entry.getKey() instanceof String) {
-//                Map<String, String> valueString = new HashMap<>();
-//                valueString.put(entry.getKey().toString(),
-//                        entry.getValue() == null ? null : entry.getValue().toString());
-//                return shapeStringHandler(valueString);
-//            } else if (entry.getKey() instanceof Integer) {
-//                Map<Integer, Integer> valueInt = new HashMap<>();
-//                valueInt.put((Integer)entry.getKey(),
-//                        entry.getValue() == null ? null : (Integer)entry.getValue());
-//                return shapeIntegerHandler(valueInt);
-//            }
-//        }
-//        return false;
-//    }
 
     public boolean shapeStringHandler(Map<String, String> value) {
         for (Map.Entry<String, String> entry : value.entrySet()) {
