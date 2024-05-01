@@ -13,7 +13,7 @@ import java.util.List;
 
 public class Validator {
     @Getter
-    private List<BaseSchema> schemas;
+    private List<BaseSchema<?>> schemas;
 
     public Validator() {
         this.schemas = new ArrayList<>();
@@ -40,7 +40,7 @@ public class Validator {
         return mapSchema;
     }
 
-    public void removeSchema(final BaseSchema schema) {
+    public void removeSchema(final BaseSchema<?> schema) {
         this.schemas.remove(schema);
         try {
             Field field = schema.getClass().getDeclaredField("validator");

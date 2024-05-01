@@ -14,7 +14,7 @@ public abstract class BaseSchema<T> {
         this.internalState = new ArrayList<>();
     }
 
-    public abstract BaseSchema required();
+    public abstract BaseSchema<T> required();
 
     public abstract boolean isValid(T value);
 }

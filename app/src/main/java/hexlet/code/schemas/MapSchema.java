@@ -18,7 +18,7 @@ public class MapSchema<T> extends BaseSchema<Map<T, T>> {
         super();
     }
 
-    public MapSchema required() {
+    public MapSchema<T> required() {
         this.getInternalState().add("required");
         return this;
     }
@@ -29,7 +29,7 @@ public class MapSchema<T> extends BaseSchema<Map<T, T>> {
                 .allMatch(field -> stateHandler(field, value));
     }
 
-    public MapSchema sizeof(int size) {
+    public MapSchema<T> sizeof(int size) {
         this.sizeOf = size;
         this.getInternalState().add("sizeof");
         return this;
@@ -44,7 +44,7 @@ public class MapSchema<T> extends BaseSchema<Map<T, T>> {
         };
     }
 
-    public MapSchema shape(Map<T, BaseSchema<T>> schemas) {
+    public MapSchema<T> shape(Map<T, BaseSchema<T>> schemas) {
         this.getInternalState().add("shape");
         schemas.forEach((key, value) -> {
             if (key instanceof String) {
