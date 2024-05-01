@@ -5,7 +5,7 @@
 [![Main-CI](https://github.com/in0mad/java-project-78/actions/workflows/main-CI.yml/badge.svg?branch=main)](https://github.com/in0mad/java-project-78/actions/workflows/main-CI.yml)
 
 ## About
-
+Data Validator is a library that can be used to check the correctness of any input data.
 
 ## Setup
 
