@@ -26,8 +26,8 @@ public class StringSchema extends BaseSchema<String> {
         return this;
     }
 
-    public StringSchema minLength(int minLength) {
-        this.minLength = minLength;
+    public StringSchema minLength(int length) {
+        this.minLength = length;
         this.getInternalState().add("minLength");
         return this;
     }
