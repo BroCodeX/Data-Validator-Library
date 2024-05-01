@@ -1,4 +1,4 @@
-package hexlet.code.validators;
+package hexlet.code.schemas;
 
 
 import hexlet.code.Validator;

@@ -1,9 +1,9 @@
 package hexlet.code;
 
-import hexlet.code.validators.BaseSchema;
-import hexlet.code.validators.MapSchema;
-import hexlet.code.validators.NumberSchema;
-import hexlet.code.validators.StringSchema;
+import hexlet.code.schemas.BaseSchema;
+import hexlet.code.schemas.MapSchema;
+import hexlet.code.schemas.NumberSchema;
+import hexlet.code.schemas.StringSchema;
 import lombok.Getter;
 
 import java.lang.reflect.Field;

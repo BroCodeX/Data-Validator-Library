@@ -1,7 +1,7 @@
 package hexlet.code;
 
-import hexlet.code.validators.BaseSchema;
-import hexlet.code.validators.MapSchema;
+import hexlet.code.schemas.BaseSchema;
+import hexlet.code.schemas.MapSchema;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
