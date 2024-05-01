@@ -40,12 +40,12 @@ public class Validator {
         return mapSchema;
     }
 
-    public void removeSchema(BaseSchema schemaClass) {
-        this.schemas.remove(schemaClass);
+    public void removeSchema(BaseSchema schema) {
+        this.schemas.remove(schema);
         try {
-            Field field = schemaClass.getClass().getDeclaredField("validator");
+            Field field = schema.getClass().getDeclaredField("validator");
             field.setAccessible(true);
-            field.set(schemaClass, null);
+            field.set(schema, null);
             field.setAccessible(false);
         } catch (NoSuchFieldException | IllegalAccessException e) {
             throw new RuntimeException(e);
