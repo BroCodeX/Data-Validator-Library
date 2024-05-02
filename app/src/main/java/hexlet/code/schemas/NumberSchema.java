@@ -4,7 +4,7 @@ package hexlet.code.schemas;
 import hexlet.code.Validator;
 import lombok.Setter;
 
-public class NumberSchema extends BaseSchema<Integer> {
+public final class NumberSchema extends BaseSchema<Integer> {
     private int[] range;
 
     @Setter

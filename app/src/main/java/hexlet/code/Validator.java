@@ -11,7 +11,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Validator {
+public final class Validator {
     @Getter
     private List<BaseSchema<?>> schemas;
 
