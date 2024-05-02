@@ -6,7 +6,7 @@ import lombok.Setter;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MapSchema<T> extends BaseSchema<Map<T, T>> {
+public final class MapSchema extends BaseSchema<Map<?, ?>> {
     private int sizeOf;
     private Map<String, StringSchema> stringSchemas = new HashMap<>();
     private Map<Integer, NumberSchema> numberSchemas = new HashMap<>();
@@ -18,24 +18,24 @@ public class MapSchema<T> extends BaseSchema<Map<T, T>> {
         super();
     }
 
-    public MapSchema<T> required() {
+    public MapSchema required() {
         this.getInternalState().add("required");
         return this;
     }
 
     @Override
-    public boolean isValid(Map<T, T> value) {
+    public boolean isValid(Map<?, ?> value) {
         return this.getInternalState().stream()
                 .allMatch(field -> stateHandler(field, value));
     }
 
-    public MapSchema<T> sizeof(int size) {
+    public MapSchema sizeof(int size) {
         this.sizeOf = size;
         this.getInternalState().add("sizeof");
         return this;
     }
 
-    private boolean stateHandler(String field, Map<T, T> value) {
+    private boolean stateHandler(String field, Map<?, ?> value) {
         return switch (field) {
             case "required" -> value != null;
             case "sizeof" -> value.size() >= this.sizeOf;
@@ -44,7 +44,7 @@ public class MapSchema<T> extends BaseSchema<Map<T, T>> {
         };
     }
 
-    public MapSchema<T> shape(Map<T, BaseSchema<T>> schemas) {
+    public void shape(Map<?, ?> schemas) {
         this.getInternalState().add("shape");
         schemas.forEach((key, value) -> {
             if (key instanceof String) {
@@ -55,11 +55,10 @@ public class MapSchema<T> extends BaseSchema<Map<T, T>> {
                 throw new RuntimeException("Unknown instance");
             }
         });
-        return this;
     }
 
 
-    public boolean shapeHandler(Map<T, T> value) {
+    public boolean shapeHandler(Map<?, ?> value) {
         return value.entrySet().stream()
                 .allMatch(entry -> {
                     boolean result = false;
