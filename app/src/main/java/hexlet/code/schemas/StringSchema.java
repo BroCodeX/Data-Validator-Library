@@ -8,9 +8,6 @@ public final class StringSchema extends BaseSchema<String> {
     private int minLength;
     private String contains;
 
-    @Setter
-    private Validator validator;
-
     public StringSchema() {
         super();
     }

@@ -1,7 +1,5 @@
 package hexlet.code.schemas;
 
-import hexlet.code.Validator;
-import lombok.Setter;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,9 +8,6 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
     private int sizeOf;
     private Map<String, StringSchema> stringSchemas = new HashMap<>();
     private Map<Integer, NumberSchema> numberSchemas = new HashMap<>();
-
-    @Setter
-    private Validator validator;
 
     public MapSchema() {
         super();

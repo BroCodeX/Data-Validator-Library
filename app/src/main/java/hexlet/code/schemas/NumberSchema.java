@@ -7,9 +7,6 @@ import lombok.Setter;
 public final class NumberSchema extends BaseSchema<Integer> {
     private int[] range;
 
-    @Setter
-    private Validator validator;
-
     public NumberSchema() {
         super();
     }
