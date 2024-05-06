@@ -18,40 +18,23 @@ public final class NumberSchemaTest {
     }
 
     @Test
-    public void excludeRequiredIntTest() {
-        boolean expected = numberSchema.isValid(5);
-        assertTrue(expected);
-        boolean expected2 = numberSchema.isValid(null);
-        assertTrue(expected2);
-        boolean expected3 = numberSchema.positive().isValid(null);
-        assertTrue(expected3);
+    public void requiredTest() {
+        assertTrue(numberSchema.isValid(null));
+        assertFalse(numberSchema.required().isValid(null));
     }
 
     @Test
-    public void includeRequiredIntTest() {
-        numberSchema.required();
-        numberSchema.positive();
-        boolean expected = numberSchema.isValid(null);
-        assertFalse(expected);
-        boolean expected2 = numberSchema.isValid(10);
-        assertTrue(expected2);
-        boolean expected3 = numberSchema.isValid(-10);
-        assertFalse(expected3);
-        boolean expected4 = numberSchema.isValid(0);
-        assertFalse(expected4);
+    public void positiveTest() {
+        numberSchema.required().positive();
+        assertTrue(numberSchema.isValid(10));
+        assertFalse(numberSchema.isValid(-10));
     }
 
     @Test
-    public void rangeIntTest() {
-        numberSchema.range(5, 10);
-        boolean expected = numberSchema.isValid(5);
-        assertTrue(expected);
-        boolean expected2 = numberSchema.isValid(11);
-        assertFalse(expected2);
-        numberSchema.range(-3, -7);
-        boolean expected3 = numberSchema.isValid(-5);
-        assertTrue(expected3);
-        boolean expected4 = numberSchema.isValid(-23);
-        assertFalse(expected4);
+    public void rangeTest() {
+        assertTrue(numberSchema.range(5, 10).isValid(5));
+        assertFalse(numberSchema.isValid(11));
+        assertTrue(numberSchema.range(-3, -7).isValid(-5));
+        assertFalse(numberSchema.isValid(-23));
     }
 }

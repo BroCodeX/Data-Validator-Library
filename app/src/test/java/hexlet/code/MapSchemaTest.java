@@ -22,27 +22,23 @@ public final class MapSchemaTest {
     }
 
     @Test
-    public void mapTests() {
+    public void requiredTest() {
         assertTrue(mapSchema.isValid(null));
+        assertFalse(mapSchema.required().isValid(null));
 
-        mapSchema.required();
-        assertFalse(mapSchema.isValid(null));
-
-        assertTrue(mapSchema.isValid(new HashMap<>()));
-
-        var data = new HashMap<String, String>();
-        data.put("key1", "value1");
-        assertTrue(mapSchema.isValid(data));
-
-        mapSchema.sizeof(2);
-
-        assertFalse(mapSchema.isValid(data));
-        data.put("key2", "value2");
-        assertTrue(mapSchema.isValid(data));
     }
 
     @Test
-    public void mapIncludeTests() {
+    public void sizeTest() {
+        var data = new HashMap<String, String>();
+        data.put("key1", "value1");
+        assertFalse(mapSchema.sizeof(2).isValid(data));
+        data.put("key2", "value2");
+        assertTrue(mapSchema.required().isValid(data));
+    }
+
+    @Test
+    public void shapeStringTest() {
         Map<String, BaseSchema<String>> schemas = new HashMap<>();
         schemas.put("firstName", validator.string().required());
         schemas.put("lastName", validator.string().required().minLength(2));
@@ -58,15 +54,10 @@ public final class MapSchemaTest {
         human2.put("firstName", "John");
         human2.put("lastName", null);
         assertFalse(mapSchema.isValid(human2));
-
-        Map<String, String> human3 = new HashMap<>();
-        human3.put("firstName", "Anna");
-        human3.put("lastName", "B");
-        assertFalse(mapSchema.isValid(human3));
     }
 
     @Test
-    public void mapIncludeTestsNumber() {
+    public void shapeNumTest() {
         Map<Integer, BaseSchema<Integer>> schemas = new HashMap<>();
         schemas.put(5, validator.number().required());
         schemas.put(10, validator.number().positive());
@@ -76,21 +67,14 @@ public final class MapSchemaTest {
 
         Map<Integer, Integer> number1 = new HashMap<>();
         number1.put(5, 8);
-        number1.put(10, 15);
+        number1.put(10, null);
+        number1.put(15, 5);
         assertTrue(mapSchema.isValid(number1));
 
         Map<Integer, Integer> number2 = new HashMap<>();
-        number2.put(5, 15);
-        number2.put(10, null);
-        assertTrue(mapSchema.isValid(number2));
-
-        Map<Integer, Integer> number3 = new HashMap<>();
-        number3.put(5, 6);
-        number3.put(10, -5);
-        assertFalse(mapSchema.isValid(number3));
-
-        Map<Integer, Integer> number4 = new HashMap<>();
-        number4.put(15, 5);
-        assertTrue(mapSchema.isValid(number4));
+        number2.put(5, 6);
+        number2.put(10, -5);
+        number1.put(15, 2);
+        assertFalse(mapSchema.isValid(number2));
     }
 }

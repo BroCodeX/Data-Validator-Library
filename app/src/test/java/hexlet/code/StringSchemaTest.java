@@ -18,47 +18,24 @@ public final class StringSchemaTest {
     }
 
     @Test
-    public void excludeRequiredStringTest() {
-        boolean expected = stringSchema.isValid("");
-        assertTrue(expected);
-        boolean expected2 = stringSchema.isValid(null);
-        assertTrue(expected2);
-    }
-
-    @Test
-    public void includeRequiredStringTest() {
-        stringSchema.required();
-        boolean expected = stringSchema.isValid(null);
-        assertFalse(expected);
-        boolean expected2 = stringSchema.isValid("");
-        assertFalse(expected2);
-        boolean expected3 = stringSchema.isValid("what does the fox say");
-        assertTrue(expected3);
-        boolean expected4 = stringSchema.isValid("hexlet");
-        assertTrue(expected4);
+    public void requiredTest() {
+        assertTrue(stringSchema.isValid(""));
+        assertTrue(stringSchema.isValid(null));
+        assertFalse(stringSchema.required().isValid(null));
+        assertFalse(stringSchema.required().isValid(""));
     }
 
     @Test
     public void minLengthStringTest() {
-        stringSchema.required();
-        boolean expected = stringSchema.minLength(4).isValid("Hexlet");
-        assertTrue(expected);
-        boolean expected2 = stringSchema.minLength(10).isValid("Hello where!");
-        assertTrue(expected2);
-        boolean expected3 = stringSchema.minLength(3).minLength(5).isValid("jambo");
-        assertTrue(expected3);
+        stringSchema.required().minLength(10);
+        assertTrue(stringSchema.isValid("Hello where!"));
+        assertFalse(stringSchema.minLength(3).minLength(5).isValid("jam"));
     }
 
     @Test
     public void containsStringTest() {
-        stringSchema.required();
-        boolean expected = stringSchema.contains("wh").isValid("what does the fox say");
-        assertTrue(expected);
-        boolean expected2 = stringSchema.contains("what").isValid("what does the fox say");
-        assertTrue(expected2);
-        boolean expected3 = stringSchema.contains("whatthe").isValid("what does the fox say");
-        assertFalse(expected3);
-        boolean expected4 = stringSchema.isValid("what does the fox say");
-        assertFalse(expected4);
+        stringSchema.required().contains("wh");
+        assertTrue(stringSchema.isValid("what does the fox say"));
+        assertFalse(stringSchema.isValid("watt does the fox say"));
     }
 }
