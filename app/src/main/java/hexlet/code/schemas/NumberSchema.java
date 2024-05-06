@@ -1,9 +1,5 @@
 package hexlet.code.schemas;
 
-
-import hexlet.code.Validator;
-import lombok.Setter;
-
 public final class NumberSchema extends BaseSchema<Integer> {
     private int[] range;
 
