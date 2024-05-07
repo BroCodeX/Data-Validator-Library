@@ -8,8 +8,8 @@ import java.util.function.Predicate;
 
 public final class MapSchema extends BaseSchema<Map<?, ?>> {
     private int sizeOf;
-    private Map<String, StringSchema> stringSchemas = new HashMap<>();
-    private Map<Integer, NumberSchema> numberSchemas = new HashMap<>();
+    private final Map<String, StringSchema> stringSchemas = new HashMap<>();
+    private final Map<Integer, NumberSchema> numberSchemas = new HashMap<>();
 
     public MapSchema() {
         super();
@@ -24,7 +24,6 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
     public boolean isValid(Map<?, ?> value) {
         return this.getInternalState().entrySet().stream()
                 .allMatch(field -> field.getValue().test(value));
-//                .allMatch(field -> stateHandler(field, value));
     }
 
     @Override
@@ -58,15 +57,15 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
                 .allMatch(entry -> {
                     boolean result = false;
                     if (entry.getKey() instanceof String) {
-                        Map<String, String> valueString = new HashMap<>();
-                        valueString.put(entry.getKey().toString(),
+                        Map<String, String> stringInstance = new HashMap<>();
+                        stringInstance.put(entry.getKey().toString(),
                                 entry.getValue() == null ? null : entry.getValue().toString());
-                        result = shapeStringHandler(valueString);
+                        result = shapeStringHandler(stringInstance);
                     } else if (entry.getKey() instanceof Integer) {
-                        Map<Integer, Integer> valueInt = new HashMap<>();
-                        valueInt.put((Integer) entry.getKey(),
+                        Map<Integer, Integer> integerInstance = new HashMap<>();
+                        integerInstance.put((Integer) entry.getKey(),
                                 entry.getValue() == null ? null : (Integer) entry.getValue());
-                        result = shapeIntegerHandler(valueInt);
+                        result = shapeIntegerHandler(integerInstance);
                     }
                     return result;
                 });
