@@ -1,20 +1,22 @@
 package hexlet.code.schemas;
 
+
 import lombok.Getter;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.HashMap;
+import java.util.Map;
+import java.util.function.Predicate;
 
 public abstract class BaseSchema<T> {
 
     @Getter
-    private List<String> internalState;
+    private Map<String, Predicate<T>> internalState;
 
     public BaseSchema() {
-        this.internalState = new ArrayList<>();
+        this.internalState = new HashMap<>();
     }
 
-    public abstract BaseSchema<T> required();
-
     public abstract boolean isValid(T value);
+
+    public abstract void addValidation(String rule, Predicate<T> predicate);
 }
