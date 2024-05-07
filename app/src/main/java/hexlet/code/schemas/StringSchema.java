@@ -28,7 +28,7 @@ public final class StringSchema extends BaseSchema<String> {
 
     public StringSchema minLength(int length) {
         this.minLength = length;
-        addValidation("minLength", value -> value.length() >= this.minLength);
+        addValidation("minLength", value -> value != null && value.length() >= this.minLength);
         return this;
     }
 

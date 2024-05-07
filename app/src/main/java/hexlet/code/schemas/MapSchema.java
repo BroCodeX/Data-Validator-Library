@@ -3,6 +3,7 @@ package hexlet.code.schemas;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public final class MapSchema extends BaseSchema<Map<?, ?>> {
@@ -15,14 +16,15 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
     }
 
     public MapSchema required() {
-        this.getInternalState().add("required");
+        addValidation("required", Objects::nonNull);
         return this;
     }
 
     @Override
     public boolean isValid(Map<?, ?> value) {
-        return this.getInternalState().stream()
-                .allMatch(field -> stateHandler(field, value));
+        return this.getInternalState().entrySet().stream()
+                .allMatch(field -> field.getValue().test(value));
+//                .allMatch(field -> stateHandler(field, value));
     }
 
     @Override
@@ -33,21 +35,12 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
 
     public MapSchema sizeof(int size) {
         this.sizeOf = size;
-        this.getInternalState().add("sizeof");
+        addValidation("sizeof", value -> value.size() >= this.sizeOf);
         return this;
     }
 
-    private boolean stateHandler(String field, Map<?, ?> value) {
-        return switch (field) {
-            case "required" -> value != null;
-            case "sizeof" -> value.size() >= this.sizeOf;
-            case "shape" -> shapeHandler(value);
-            default -> throw new RuntimeException("There is no settings for the schema");
-        };
-    }
-
     public void shape(Map<?, ?> schemas) {
-        this.getInternalState().add("shape");
+        addValidation("shape", this::shapeHandler);
         schemas.forEach((key, value) -> {
             if (key instanceof String) {
                 this.stringSchemas.put(key.toString(), (StringSchema) value);
