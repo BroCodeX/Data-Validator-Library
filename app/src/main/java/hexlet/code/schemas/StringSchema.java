@@ -1,5 +1,7 @@
 package hexlet.code.schemas;
 
+import java.util.function.Predicate;
+
 public final class StringSchema extends BaseSchema<String> {
     private int minLength;
     private String contains;
@@ -10,33 +12,29 @@ public final class StringSchema extends BaseSchema<String> {
 
     @Override
     public boolean isValid(String value) {
-        return this.getInternalState().stream()
-                .allMatch(field -> stateHandler(field, value));
+        return this.getInternalState().entrySet().stream()
+                .allMatch(entry -> entry.getValue().test(value));
+    }
+
+    @Override
+    public void addValidation(String rule, Predicate<String> predicate) {
+        this.getInternalState().put(rule, predicate);
     }
 
     public StringSchema required() {
-        this.getInternalState().add("required");
+        addValidation("required", value -> value != null && !value.isEmpty());
         return this;
     }
 
     public StringSchema minLength(int length) {
         this.minLength = length;
-        this.getInternalState().add("minLength");
+        addValidation("minLength", value -> value.length() >= this.minLength);
         return this;
     }
 
     public StringSchema contains(String text) {
         this.contains = text;
-        this.getInternalState().add("contains");
+        addValidation("contains", value -> value.contains(this.contains));
         return this;
-    }
-
-    private boolean stateHandler(String field, String value) {
-        return switch (field) {
-            case "required" -> value != null && !value.isEmpty();
-            case "contains" -> value.contains(this.contains);
-            case "minLength" -> value.length() >= this.minLength;
-            default -> throw new RuntimeException("There is no settings for the schema");
-        };
     }
 }

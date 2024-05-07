@@ -3,6 +3,7 @@ package hexlet.code.schemas;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.function.Predicate;
 
 public final class MapSchema extends BaseSchema<Map<?, ?>> {
     private int sizeOf;
@@ -23,6 +24,12 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
         return this.getInternalState().stream()
                 .allMatch(field -> stateHandler(field, value));
     }
+
+    @Override
+    public void addValidation(String rule, Predicate<Map<?, ?>> predicate) {
+        this.getInternalState().put(rule, predicate);
+    }
+
 
     public MapSchema sizeof(int size) {
         this.sizeOf = size;

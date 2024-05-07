@@ -1,5 +1,8 @@
 package hexlet.code.schemas;
 
+import java.util.Objects;
+import java.util.function.Predicate;
+
 public final class NumberSchema extends BaseSchema<Integer> {
     private int[] range;
 
@@ -9,16 +12,23 @@ public final class NumberSchema extends BaseSchema<Integer> {
 
     @Override
     public boolean isValid(Integer value) {
-        return this.getInternalState().stream()
-                .allMatch(field -> stateHandler(field, value));
+        return this.getInternalState().entrySet().stream()
+                .allMatch(entry -> entry.getValue().test(value));
     }
+
+    @Override
+    public void addValidation(String rule, Predicate<Integer> predicate) {
+        this.getInternalState().put(rule, predicate);
+    }
+
+
     public NumberSchema required() {
-        this.getInternalState().add("required");
+        addValidation("required", Objects::nonNull);
         return this;
     }
 
     public NumberSchema positive() {
-        this.getInternalState().add("positive");
+        addValidation("positive", value -> value == null || value >= 1);
         return this;
     }
 
@@ -26,17 +36,8 @@ public final class NumberSchema extends BaseSchema<Integer> {
         this.range = new int[2];
         this.range[0] = start;
         this.range[1] = end;
-        this.getInternalState().add("range");
+        addValidation("range", this::rangeHandler);
         return this;
-    }
-
-    private boolean stateHandler(String field, Integer value) {
-        return switch (field) {
-            case "required" -> value != null;
-            case "positive" -> value == null || value >= 1;
-            case "range" -> rangeHandler(value);
-            default -> throw new RuntimeException("There is no settings for the schema");
-        };
     }
 
     private boolean rangeHandler(int value) {
