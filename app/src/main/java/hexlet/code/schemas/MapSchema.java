@@ -1,14 +1,10 @@
 package hexlet.code.schemas;
 
 
-import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
 public final class MapSchema extends BaseSchema<Map<?, ?>> {
-    private final Map<String, StringSchema> stringSchemas = new HashMap<>();
-    private final Map<Integer, NumberSchema> numberSchemas = new HashMap<>();
-
     public MapSchema required() {
         addValidation("required", Objects::nonNull);
         return this;
@@ -20,52 +16,25 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
     }
 
     public void shape(Map<?, ?> schemas) {
-        addValidation("shape", this::shapeHandler);
-        schemas.forEach((key, value) -> {
-            if (key instanceof String) {
-                this.stringSchemas.put(key.toString(), (StringSchema) value);
-            } else if (key instanceof Integer) {
-                this.numberSchemas.put((Integer) key, (NumberSchema) value);
-            } else {
-                throw new RuntimeException("Unknown instance");
-            }
-        });
+        addValidation("shape", value -> shapeHandler(value, schemas));
     }
 
-    public boolean shapeHandler(Map<?, ?> value) {
+    public boolean shapeHandler(Map<?, ?> value, Map<?, ?> schemas) {
         return value.entrySet().stream()
                 .allMatch(entry -> {
                     boolean result = false;
                     if (entry.getKey() instanceof String) {
-                        Map<String, String> stringInstance = new HashMap<>();
-                        stringInstance.put(entry.getKey().toString(),
-                                entry.getValue() == null ? null : entry.getValue().toString());
-                        result = shapeStringHandler(stringInstance);
+                        String key = entry.getKey().toString();
+                        String val = entry.getValue() == null ? null : entry.getValue().toString();
+                        StringSchema check = (StringSchema) schemas.get(key);
+                        result = check.isValid(val);
                     } else if (entry.getKey() instanceof Integer) {
-                        Map<Integer, Integer> integerInstance = new HashMap<>();
-                        integerInstance.put((Integer) entry.getKey(),
-                                entry.getValue() == null ? null : (Integer) entry.getValue());
-                        result = shapeIntegerHandler(integerInstance);
+                        Integer key = (Integer) entry.getKey();
+                        Integer val = entry.getValue() == null ? null : (Integer) entry.getValue();
+                        NumberSchema check = (NumberSchema) schemas.get(key);
+                        result = check.isValid(val);
                     }
                     return result;
                 });
-    }
-
-    public boolean shapeStringHandler(Map<String, String> value) {
-        for (Map.Entry<String, String> entry : value.entrySet()) {
-            String key = entry.getKey();
-            StringSchema check = this.stringSchemas.getOrDefault(key, null);
-            return check.isValid(entry.getValue());
-        }
-        return true;
-    }
-
-    public boolean shapeIntegerHandler(Map<Integer, Integer> value) {
-        for (Map.Entry<Integer, Integer> entry : value.entrySet()) {
-            Integer key = entry.getKey();
-            NumberSchema check = this.numberSchemas.getOrDefault(key, null);
-            return check.isValid(entry.getValue());
-        }
-        return true;
     }
 }
