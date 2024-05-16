@@ -4,10 +4,8 @@ package hexlet.code.schemas;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
-import java.util.function.Predicate;
 
 public final class MapSchema extends BaseSchema<Map<?, ?>> {
-    private int sizeOf;
     private final Map<String, StringSchema> stringSchemas = new HashMap<>();
     private final Map<Integer, NumberSchema> numberSchemas = new HashMap<>();
 
@@ -16,21 +14,8 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
         return this;
     }
 
-    @Override
-    public boolean isValid(Map<?, ?> value) {
-        return this.getInternalState().entrySet().stream()
-                .allMatch(field -> field.getValue().test(value));
-    }
-
-    @Override
-    public void addValidation(String rule, Predicate<Map<?, ?>> predicate) {
-        this.getInternalState().put(rule, predicate);
-    }
-
-
     public MapSchema sizeof(int size) {
-        this.sizeOf = size;
-        addValidation("sizeof", value -> value == null || value.size() >= this.sizeOf);
+        addValidation("sizeof", value -> value == null || value.size() >= size);
         return this;
     }
 
@@ -46,7 +31,6 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
             }
         });
     }
-
 
     public boolean shapeHandler(Map<?, ?> value) {
         return value.entrySet().stream()

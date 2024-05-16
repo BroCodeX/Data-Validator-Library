@@ -1,23 +1,8 @@
 package hexlet.code.schemas;
 
 import java.util.Objects;
-import java.util.function.Predicate;
 
 public final class NumberSchema extends BaseSchema<Integer> {
-    private int[] range;
-
-    @Override
-    public boolean isValid(Integer value) {
-        return this.getInternalState().entrySet().stream()
-                .allMatch(entry -> entry.getValue().test(value));
-    }
-
-    @Override
-    public void addValidation(String rule, Predicate<Integer> predicate) {
-        this.getInternalState().put(rule, predicate);
-    }
-
-
     public NumberSchema required() {
         addValidation("required", Objects::nonNull);
         return this;
@@ -29,21 +14,18 @@ public final class NumberSchema extends BaseSchema<Integer> {
     }
 
     public NumberSchema range(int start, int end) {
-        this.range = new int[2];
-        this.range[0] = start;
-        this.range[1] = end;
-        addValidation("range", this::rangeHandler);
+        addValidation("range", value -> rangeHandler(value, start, end));
         return this;
     }
 
-    private boolean rangeHandler(Integer value) {
+    private boolean rangeHandler(Integer value, int start, int end) {
         if (value == null) {
             return true;
         }
         if (value > 0) {
-            return value >= this.range[0] && value <= this.range[1];
+            return value >= start && value <= end;
         } else {
-            return value <= this.range[0] && value >= this.range[1];
+            return value <= start && value >= end;
         }
     }
 }
