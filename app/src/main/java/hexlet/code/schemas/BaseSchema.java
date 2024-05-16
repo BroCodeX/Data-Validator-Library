@@ -13,7 +13,7 @@ public abstract class BaseSchema<T> {
         this.internalState = new HashMap<>();
     }
 
-    public boolean isValid(T value) {
+    public final boolean isValid(T value) {
         return this.internalState.entrySet().stream()
                 .allMatch(entry -> entry.getValue().test(value));
     }
