@@ -17,8 +17,4 @@ public final class NumberSchema extends BaseSchema<Integer> {
         addValidation("range", value -> value == null ||  value >= start && value <= end);
         return this;
     }
-
-//    private boolean rangeHandler(Integer value, int start, int end) {
-//        return value == null || (value > 0 ? value >= start && value <= end : value <= start && value >= end);
-//    }
 }
