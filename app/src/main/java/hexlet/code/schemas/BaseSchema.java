@@ -18,7 +18,7 @@ public abstract class BaseSchema<T> {
                 .allMatch(entry -> entry.getValue().test(value));
     }
 
-    public void addValidation(String rule, Predicate<T> predicate) {
+    public final void addValidation(String rule, Predicate<T> predicate) {
         this.internalState.put(rule, predicate);
     }
 }
