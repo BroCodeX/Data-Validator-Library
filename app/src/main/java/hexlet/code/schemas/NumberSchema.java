@@ -14,11 +14,11 @@ public final class NumberSchema extends BaseSchema<Integer> {
     }
 
     public NumberSchema range(int start, int end) {
-        addValidation("range", value -> rangeHandler(value, start, end));
+        addValidation("range", value -> value == null ||  value >= start && value <= end);
         return this;
     }
 
-    private boolean rangeHandler(Integer value, int start, int end) {
-        return value == null || (value > 0 ? value >= start && value <= end : value <= start && value >= end);
-    }
+//    private boolean rangeHandler(Integer value, int start, int end) {
+//        return value == null || (value > 0 ? value >= start && value <= end : value <= start && value >= end);
+//    }
 }

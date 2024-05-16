@@ -36,8 +36,6 @@ public final class NumberSchemaTest {
     public void rangeTest() {
         numberSchema.range(5, 10);
         assertTrue(numberSchema.isValid(5));
-        numberSchema.range(-3, -7);
-        assertTrue(numberSchema.isValid(-5));
         assertTrue(numberSchema.isValid(null));
     }
 }
