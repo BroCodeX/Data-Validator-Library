@@ -19,13 +19,6 @@ public final class NumberSchema extends BaseSchema<Integer> {
     }
 
     private boolean rangeHandler(Integer value, int start, int end) {
-        if (value == null) {
-            return true;
-        }
-        if (value > 0) {
-            return value >= start && value <= end;
-        } else {
-            return value <= start && value >= end;
-        }
+        return value == null || (value > 0 ? value >= start && value <= end : value <= start && value >= end);
     }
 }
