@@ -11,10 +11,6 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
     private final Map<String, StringSchema> stringSchemas = new HashMap<>();
     private final Map<Integer, NumberSchema> numberSchemas = new HashMap<>();
 
-    public MapSchema() {
-        super();
-    }
-
     public MapSchema required() {
         addValidation("required", Objects::nonNull);
         return this;
@@ -34,7 +30,7 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
 
     public MapSchema sizeof(int size) {
         this.sizeOf = size;
-        addValidation("sizeof", value -> value.size() >= this.sizeOf);
+        addValidation("sizeof", value -> value == null || value.size() >= this.sizeOf);
         return this;
     }
 

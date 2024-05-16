@@ -24,7 +24,8 @@ public final class MapSchemaTest {
     @Test
     public void requiredTest() {
         assertTrue(mapSchema.isValid(null));
-        assertFalse(mapSchema.required().isValid(null));
+        mapSchema.required();
+        assertFalse(mapSchema.isValid(null));
 
     }
 
@@ -32,16 +33,18 @@ public final class MapSchemaTest {
     public void sizeTest() {
         var data = new HashMap<String, String>();
         data.put("key1", "value1");
-        assertFalse(mapSchema.sizeof(2).isValid(data));
+        mapSchema.sizeof(2);
+        assertFalse(mapSchema.isValid(data));
         data.put("key2", "value2");
-        assertTrue(mapSchema.required().isValid(data));
+        assertTrue(mapSchema.isValid(data));
+        assertTrue(mapSchema.isValid(null));
     }
 
     @Test
     public void shapeStringTest() {
         Map<String, BaseSchema<String>> schemas = new HashMap<>();
-        schemas.put("firstName", validator.string().required());
-        schemas.put("lastName", validator.string().required().minLength(2));
+        schemas.put("firstName", validator.string());
+        schemas.put("lastName", validator.string().minLength(2));
 
         mapSchema.shape(schemas);
 
@@ -53,15 +56,15 @@ public final class MapSchemaTest {
         Map<String, String> human2 = new HashMap<>();
         human2.put("firstName", "John");
         human2.put("lastName", null);
-        assertFalse(mapSchema.isValid(human2));
+        assertTrue(mapSchema.isValid(human2));
     }
 
     @Test
     public void shapeNumTest() {
         Map<Integer, BaseSchema<Integer>> schemas = new HashMap<>();
-        schemas.put(5, validator.number().required());
+        schemas.put(5, validator.number());
         schemas.put(10, validator.number().positive());
-        schemas.put(15, validator.number().required().positive().range(3, 8));
+        schemas.put(15, validator.number().positive().range(3, 8));
 
         mapSchema.shape(schemas);
 

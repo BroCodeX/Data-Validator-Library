@@ -21,21 +21,24 @@ public final class StringSchemaTest {
     public void requiredTest() {
         assertTrue(stringSchema.isValid(""));
         assertTrue(stringSchema.isValid(null));
-        assertFalse(stringSchema.required().isValid(null));
-        assertFalse(stringSchema.required().isValid(""));
+        stringSchema.required();
+        assertFalse(stringSchema.isValid(null));
+        assertFalse(stringSchema.isValid(""));
     }
 
     @Test
     public void minLengthStringTest() {
-        stringSchema.required().minLength(10);
+        stringSchema.minLength(10);
         assertTrue(stringSchema.isValid("Hello where!"));
-        assertFalse(stringSchema.minLength(3).minLength(5).isValid("jam"));
+        assertFalse(stringSchema.isValid("jam"));
+        assertTrue(stringSchema.isValid(null));
     }
 
     @Test
     public void containsStringTest() {
-        stringSchema.required().contains("wh");
+        stringSchema.contains("wh");
         assertTrue(stringSchema.isValid("what does the fox say"));
         assertFalse(stringSchema.isValid("watt does the fox say"));
+        assertTrue(stringSchema.isValid(null));
     }
 }

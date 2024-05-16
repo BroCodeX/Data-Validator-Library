@@ -6,10 +6,6 @@ public final class StringSchema extends BaseSchema<String> {
     private int minLength;
     private String contains;
 
-    public StringSchema() {
-        super();
-    }
-
     @Override
     public boolean isValid(String value) {
         return this.getInternalState().entrySet().stream()
@@ -28,13 +24,13 @@ public final class StringSchema extends BaseSchema<String> {
 
     public StringSchema minLength(int length) {
         this.minLength = length;
-        addValidation("minLength", value -> value != null && value.length() >= this.minLength);
+        addValidation("minLength", value -> value == null || value.length() >= this.minLength);
         return this;
     }
 
     public StringSchema contains(String text) {
         this.contains = text;
-        addValidation("contains", value -> value.contains(this.contains));
+        addValidation("contains", value -> value == null || value.contains(this.contains));
         return this;
     }
 }

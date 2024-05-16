@@ -6,10 +6,6 @@ import java.util.function.Predicate;
 public final class NumberSchema extends BaseSchema<Integer> {
     private int[] range;
 
-    public NumberSchema() {
-        super();
-    }
-
     @Override
     public boolean isValid(Integer value) {
         return this.getInternalState().entrySet().stream()
@@ -40,7 +36,10 @@ public final class NumberSchema extends BaseSchema<Integer> {
         return this;
     }
 
-    private boolean rangeHandler(int value) {
+    private boolean rangeHandler(Integer value) {
+        if (value == null) {
+            return true;
+        }
         if (value > 0) {
             return value >= this.range[0] && value <= this.range[1];
         } else {
