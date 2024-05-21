@@ -21,6 +21,7 @@ public final class StringSchemaTest {
     public void requiredTest() {
         assertTrue(stringSchema.isValid(""));
         assertTrue(stringSchema.isValid(null));
+        assertTrue(stringSchema.isValid("some value"));
         stringSchema.required();
         assertFalse(stringSchema.isValid(null));
         assertFalse(stringSchema.isValid(""));

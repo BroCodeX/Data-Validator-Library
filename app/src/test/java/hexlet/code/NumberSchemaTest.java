@@ -26,10 +26,12 @@ public final class NumberSchemaTest {
 
     @Test
     public void positiveTest() {
+        assertTrue(numberSchema.isValid(0));
         numberSchema.positive();
         assertTrue(numberSchema.isValid(10));
         assertFalse(numberSchema.isValid(-10));
         assertTrue(numberSchema.isValid(null));
+        assertFalse(numberSchema.isValid(0));
     }
 
     @Test
@@ -37,5 +39,10 @@ public final class NumberSchemaTest {
         numberSchema.range(5, 10);
         assertTrue(numberSchema.isValid(5));
         assertTrue(numberSchema.isValid(null));
+        assertTrue(numberSchema.isValid(10));
+        numberSchema.range(10, 5);
+        assertFalse(numberSchema.isValid(5));
+        numberSchema.range(-8, -3);
+        assertTrue(numberSchema.isValid(-6));
     }
 }
