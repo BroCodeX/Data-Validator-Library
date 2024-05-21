@@ -15,32 +15,18 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
         return this;
     }
 
-    public <T> MapSchema shape(Map<T, BaseSchema<T>> schemas) {
+    public <K, V> MapSchema shape(Map<K, BaseSchema<V>> schemas) {
         addValidation("shape", value -> shapeHandler(value, schemas));
         return this;
     }
 
-    public <T> boolean shapeHandler(Map<?, ?> value, Map<T, BaseSchema<T>> schemas) {
+    private <K, V> boolean shapeHandler(Map<?, ?> value, Map<K, BaseSchema<V>> schemas) {
         return value.entrySet().stream()
                 .allMatch(entry -> {
-                    T key = (T) entry.getKey();
-                    T val = (T) (entry.getValue() == null ? null : entry.getValue());
-                    BaseSchema<T> check = schemas.get(key);
+                    K key = (K) entry.getKey();
+                    V val = (V) (entry.getValue() == null ? null : entry.getValue());
+                    BaseSchema<V> check = schemas.get(key);
                     return check.isValid(val);
-
-
-//                    if (entry.getKey() instanceof String) {
-//                        String key = entry.getKey().toString();
-//                        String val = entry.getValue() == null ? null : entry.getValue().toString();
-//                        StringSchema check = (StringSchema) schemas.get(key);
-//                        result = check.isValid(val);
-//                    } else if (entry.getKey() instanceof Integer) {
-//                        Integer key = (Integer) entry.getKey();
-//                        Integer val = entry.getValue() == null ? null : (Integer) entry.getValue();
-//                        NumberSchema check = (NumberSchema) schemas.get(key);
-//                        result = check.isValid(val);
-//                    }
-                    //return result;
                 });
     }
 }
