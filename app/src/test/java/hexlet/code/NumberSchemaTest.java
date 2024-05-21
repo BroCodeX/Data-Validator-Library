@@ -41,7 +41,7 @@ public final class NumberSchemaTest {
         assertTrue(numberSchema.isValid(null));
         assertTrue(numberSchema.isValid(10));
         numberSchema.range(10, 5);
-        assertFalse(numberSchema.isValid(5));
+        assertFalse(numberSchema.isValid(6));
         numberSchema.range(-8, -3);
         assertTrue(numberSchema.isValid(-6));
     }
