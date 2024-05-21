@@ -1,6 +1,7 @@
 package hexlet.code.schemas;
 
 public final class StringSchema extends BaseSchema<String> {
+    @Override
     public StringSchema required() {
         addValidation("required", value -> value != null && !value.isEmpty());
         return this;
