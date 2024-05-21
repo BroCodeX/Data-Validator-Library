@@ -3,6 +3,7 @@ package hexlet.code.schemas;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.function.Predicate;
 
 public abstract class BaseSchema<T> {
@@ -20,5 +21,10 @@ public abstract class BaseSchema<T> {
 
     public final void addValidation(String rule, Predicate<T> predicate) {
         this.internalState.put(rule, predicate);
+    }
+
+    public BaseSchema<T> required() {
+        addValidation("required", Objects::nonNull);
+        return this;
     }
 }
