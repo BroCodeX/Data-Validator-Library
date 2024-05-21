@@ -15,20 +15,18 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
         return this;
     }
 
-    public <S, T> MapSchema shape(Map<S, BaseSchema<T>> schemas) {
+    public <T> MapSchema shape(Map<T, BaseSchema<T>> schemas) {
         addValidation("shape", value -> shapeHandler(value, schemas));
         return this;
     }
 
-    public boolean shapeHandler(Map<?, ?> value, Map<?, ?> schemas) {
+    public <T> boolean shapeHandler(Map<?, ?> value, Map<T, BaseSchema<T>> schemas) {
         return value.entrySet().stream()
                 .allMatch(entry -> {
-                    boolean result = false;
-                    Object key = entry.getKey();
-                    Object val = entry.getValue() == null ? null : entry.getValue();
-                    BaseSchema<? extends BaseSchema> check = (BaseSchema<? extends BaseSchema>) schemas.get(key);
-                    result = check.isValid(val);
-                    return result;
+                    T key = (T) entry.getKey();
+                    T val = (T) (entry.getValue() == null ? null : entry.getValue());
+                    BaseSchema<T> check = schemas.get(key);
+                    return check.isValid(val);
 
 
 //                    if (entry.getKey() instanceof String) {
@@ -42,7 +40,7 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
 //                        NumberSchema check = (NumberSchema) schemas.get(key);
 //                        result = check.isValid(val);
 //                    }
-                    return result;
+                    //return result;
                 });
     }
 }
