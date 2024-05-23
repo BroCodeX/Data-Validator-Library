@@ -17,7 +17,7 @@ public final class MapSchema extends BaseSchema<Map<?, ?>> {
                     T val = (T) (value.get(entry.getKey()));
                     return schema.isValid(val);
                 }
-    ));
+                ));
         return this;
     }
 }
