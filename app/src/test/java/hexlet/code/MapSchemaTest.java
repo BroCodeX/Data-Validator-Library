@@ -61,23 +61,23 @@ public final class MapSchemaTest {
 
     @Test
     public void shapeNumTest() {
-        Map<Integer, BaseSchema<Integer>> schemas = new HashMap<>();
-        schemas.put(5, validator.number());
-        schemas.put(10, validator.number().positive());
-        schemas.put(15, validator.number().positive().range(3, 8));
+        Map<String, BaseSchema<Integer>> schemas = new HashMap<>();
+        schemas.put("first", validator.number());
+        schemas.put("second", validator.number().positive());
+        schemas.put("third", validator.number().positive().range(3, 8));
 
         mapSchema.shape(schemas);
 
-        Map<Integer, Integer> number1 = new HashMap<>();
-        number1.put(5, 8);
-        number1.put(10, null);
-        number1.put(15, 5);
+        Map<String, Integer> number1 = new HashMap<>();
+        number1.put("first", 8);
+        number1.put("second", null);
+        number1.put("third", 5);
         assertTrue(mapSchema.isValid(number1));
 
-        Map<Integer, Integer> number2 = new HashMap<>();
-        number2.put(5, 6);
-        number2.put(10, -5);
-        number1.put(15, 2);
+        Map<String, Integer> number2 = new HashMap<>();
+        number2.put("first", 6);
+        number2.put("second", -5);
+        number1.put("third", 2);
         assertFalse(mapSchema.isValid(number2));
     }
 }

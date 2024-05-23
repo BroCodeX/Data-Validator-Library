@@ -24,6 +24,7 @@ public abstract class BaseSchema<T> {
     }
 
     /**
+     * Add non-null validation to schema for the data check
      * Subclasses can override this method to provide additional behavior.
      *
      * @return BaseSchema instance
